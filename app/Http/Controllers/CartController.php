@@ -5,19 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
     public function index()
     {
         if (Auth::check()) {
-
+            
             $items = Cart::where("user_id", Auth::id())->get();
+
         } else {
+
             $items = Cart::where("session_id", session()->getId())->get();
         }
-        //dd($items->products);
+        
         return view("guest.cart", ['cart_items' => $items]);
     }
 
@@ -31,6 +32,7 @@ class CartController extends Controller
         $price = $request->price;
         $price = ($quantity * $price);
 
+        
         if (Auth::check()) {
             $count = Cart::where('user_id', $user_id)
                 ->where('product_id', $productId)->count('quantity');
@@ -42,6 +44,7 @@ class CartController extends Controller
         }
 
         if ($count >= 1) {
+
             $data['quantity'] = $quantity;
             $data['price'] = $quantity * $price;
 
@@ -50,26 +53,10 @@ class CartController extends Controller
                 $update = Cart::where('user_id', $user_id)
                     ->where('product_id', $productId)->update($data);
 
-                $cart_quantity = Cart::where("user_id", $user_id)->sum('quantity');
-
-                session(['cart_quantity' => $cart_quantity]);
-
-                return response()->json([
-                    'quantity' => $cart_quantity,
-                ]);
-
             } else {
 
                 $update = Cart::where('session_id', $session)
                     ->where('product_id', $productId)->update($data);
-
-                $cart_quantity = Cart::where("session_id", $session)->sum('quantity');
-
-                session(['cart_quantity' => $cart_quantity]);
-
-                return response()->json([
-                    'quantity' => $cart_quantity,
-                ]);
 
             }
         } else {
@@ -85,27 +72,7 @@ class CartController extends Controller
 
             $cart = new Cart($data);
             $cart->save();
-
-            if (Auth::check()) {
-
-                $cart_quantity = Cart::where("user_id", $user_id)->sum('quantity');
-
-                session(['cart_quantity' => $cart_quantity]);
-
-                return response()->json([
-                    'quantity' => $cart_quantity,
-                ]);
-
-            } else {
-
-                $cart_quantity = Cart::where("session_id", $session)->sum('quantity');
-
-                session(['cart_quantity' => $cart_quantity]);
-
-                return response()->json([
-                    'quantity' => $cart_quantity,
-                ]);
-            }
+            
         }
 
     }
@@ -113,40 +80,38 @@ class CartController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->product_id;
-if(Auth::check())
-{
+        if (Auth::check()) {
 
-    $item = Cart::where("user_id", Auth::id())->delete();
+            $item = Cart::where("user_id", Auth::id())->where("product_id" , $id)->delete();
 
-    $this->cart_quantity();
+            return back();
 
-    return back();
+        } else {
 
-}else{
+            $item = Cart::where("session_id", session()->getId())->where("product_id" , $id)->delete();
 
-    $item = Cart::where("session_id", session()->getId())->delete();
+            return back();
 
-    $this->cart_quantity();
-
-    return back();
-
-}
+        }
     }
 
-    public function cart_quantity()
+    public function cart_quantity(Request $request)
     {
 
-       if(Auth::check())
-       {
-        $cart_quantity = DB::table('carts')->where("user_id", Auth::id())->sum('quantity');
-        session(['cart_quantity' => $cart_quantity]);
+        if (Auth::check()) {
+            
+            $cart_quantity = Cart::where("user_id", Auth::id())->sum('quantity');
+            $request->session()->put('cart_quantity',$cart_quantity);
 
-       }
-       else{
-        $cart_quantity = DB::table('carts')->where("session_id", session()->getId())->sum('quantity');
-        session(['cart_quantity' => $cart_quantity]);
+        } else {
 
-       }
+            $cart_quantity = Cart::where("session_id", session()->getId())->sum('quantity');
+            $request->session()->put('cart_quantity',$cart_quantity);
+        }
+
+        return response()->json([
+            'quantity' => $cart_quantity
+        ]);
     }
 
 }

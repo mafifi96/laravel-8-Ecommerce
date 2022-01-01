@@ -29,7 +29,6 @@
                                 <th scope="col">Id</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Price</th>
-                                <th scope="col">Quantity</th>
                                 <th scope="col">Customer</th>
                                 <th scope="col">Careated At</th>
                             </tr>
@@ -42,7 +41,6 @@
                                 <td scope="row"><a href="/admin/order/{{$order->id}}">{{$order->id}}</a></td>
                                 <td>{{$order->status}}</td>
                                 <td>{{number_format($order->total_price ,0 , ',')}}</td>
-                                <td>{{$order->products()->sum('quantity')}}</td>
                                 <td>{{$order->user->name}}</td>
                                 <td>{{$order->created_at}}</td>
 

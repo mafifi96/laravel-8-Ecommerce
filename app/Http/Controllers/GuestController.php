@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Sessions;
@@ -11,11 +12,14 @@ class GuestController extends Controller
     public function index()
     {
         $session = Sessions::find(session()->getId());
+
         if (!$session) {
+
             $session = new Sessions;
             $session->session_id = session()->getId();
             $session->save();
         }
+
         return view("guest.home", ['products' => Product::latest()->get(), 'categories' => Category::all()]);
     }
 
@@ -28,5 +32,15 @@ class GuestController extends Controller
     {
         return view("guest.category", ['category' => $category , 'categories'=> Category::all()]);
     }
+
+    public function search(Request $request)
+    {
+        $product = $request->q;
+
+        $products = Product::where("title" , "like" , "%$product%")->get();
+
+        return view("guest.home" , ['products'=> $products]);
+    }
+
 
 }

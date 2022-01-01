@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view("admin.layouts.categories" , ['categories' => $categories]);
+        return view("admin.layouts.category.categories" , ['categories' => $categories]);
     }
 
     /**
@@ -25,7 +25,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view("admin.layouts.category_create");
+        return view("admin.layouts.category.create");
     }
 
     /**
@@ -59,40 +59,8 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return view("admin.layouts.category" , ['category'=>$category]);
+        return view("admin.layouts.category.category" , ['category'=>$category]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

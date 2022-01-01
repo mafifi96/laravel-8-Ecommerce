@@ -30,6 +30,7 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $sessions['notloged'] = session()->getId();
+        
         $request->authenticate();
 
         $user = Cart::where("session_id" , $sessions['notloged'])

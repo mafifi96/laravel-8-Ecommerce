@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Category;
 use App\Http\Resources\ProductResource;
-use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\DB;
-use App\Models\Product_images;
 
 class ProductController extends Controller
 {
@@ -20,9 +17,9 @@ class ProductController extends Controller
     public function index()
     {
 
-       $products = Product::all();
+       $products = Product::paginate(20);
 
-       return view("admin.layouts.products" , ['products' => $products]);
+       return view("admin.layouts.product.products" , ['products' => $products]);
 
     }
 
@@ -33,9 +30,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-         $categories = DB::select('select id,name from categories ');
+        $categories = DB::select('select id,name from categories ');
 
-        return view("admin.layouts.product_create" , ['categories'=>$categories]);
+
+        return view("admin.layouts.product.create" , ['categories'=>$categories]);
     }
 
     /**
@@ -46,8 +44,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
-
+        
         $data = $request->validate([
             'title' => "required|min:10|max:50",
             'description' => "required|min:5|max:1000",
@@ -61,15 +58,15 @@ class ProductController extends Controller
         ]);
 
         $file_name = time(). "_". $request->image->extension();
+
         $request->image->move(public_path('uploads'), $file_name);
 
-        $product = Product::create($data)->id;
-        $image = Product_images::create([
-            'image'=>$file_name,
-            'product_id'=> $product
-            ]);
+        $product = Product::create($data);
+
+        $image = $product->images()->create(['image'=>$file_name]);
 
         $request->session()->flash('saved' , '<strong>Product</strong> saved..!');
+
         return back();
     }
 
@@ -92,9 +89,12 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProductRequest $request , Product $product)
+    public function edit(product $product)
     {
 
+        dd($product);
+
+        return  $product;
 
     }
 
@@ -108,6 +108,11 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
 
+        $product = Product::findOrFail($id)->upadte($request->all());
+
+        $request->session()->flash('ProductUpadted' , 'Product Updated..!');
+
+        //return back();
     }
 
     /**

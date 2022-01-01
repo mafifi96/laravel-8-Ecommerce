@@ -13,10 +13,12 @@ Route::get('/product/{product}', [GuestController::class , 'product']);
 Route::get('/category/{category}/{name}', [GuestController::class , 'category']);
 Route::get("/cart" , [CartController::class , 'index']);
 Route::post("/cart/add" , [CartController::class , 'add']);
+Route::post("/cart/quantity" , [CartController::class , 'cart_quantity']);
+
 Route::post("/cart/delete" , [CartController::class , 'destroy']);
 Route::get('/checkout', [UserController::class , 'checkout']);
 Route::post('/customer/info', [UserController::class , 'customer_info']);
-
+Route::get("/search" , [GuestController::class , 'search']);
 
 Route::middleware(['auth','admin'])->group(function () {
 
@@ -34,6 +36,8 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::get('/admin/product/create',[ProductController::class , 'create'])->name('product_create');
 
+    Route::get('/admin/product/{product}/edit',[ProductController::class , 'edit']);
+
     Route::post('/admin/product/store', [ProductController::class, 'store']);
 
     Route::post('/admin/product/delete', [ProductController::class, 'destroy']);
@@ -46,7 +50,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
 
     Route::get('/customer', [UserController::class , 'customer'])->middleware('auth' , 'customer');
     Route::get('/confirm/order', [OrderController::class , 'confirm']);
-
+    Route::get('/customer/{id}/orders' , [UserController::class , 'user_orders']);
 });
 
 require __DIR__.'/auth.php';

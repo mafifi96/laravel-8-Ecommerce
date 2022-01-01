@@ -37,9 +37,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 pull-right">
-                                                    <button type="submit" data-price="{{$product->price}}"
-                                                        data-id="{{$product->id}}" class="btn btn-primary addtocart"
-                                                        name="submit">Add</button>
+                                                    <button type="submit" data-name="{{$product->title}}" data-price="{{$product->price}}" data-id="{{$product->id}}"
+                                                        class="btn btn-primary addtocart" name="submit">Add</button>
                                                 </div>
                                             </div>
                                         </form>

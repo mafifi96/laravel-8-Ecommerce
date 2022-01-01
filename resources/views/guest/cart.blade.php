@@ -13,26 +13,29 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8 px-1">
                         <ul class="list-group">
-                        @forelse ($cart_items as $product )
+                            @forelse ($cart_items as $product )
 
                             <li class="list-group-item text-right">
-                              <span class="float-left">{{$product->product_name}}</span>
-                              <span class="badge bg-primary rounded-pill">Quantity : {{($product->quantity)}}</span>
-                              <span class="badge bg-primary rounded-pill">Price : {{($product->price * $product->quantity)}}</span>
-                            <button class="btn btn-sm  deletefromcart" data-id="{{$product->product_id}}">x</button>
+                                <span class="float-left">{{$product->product_name}}</span>
+                                <span class="badge bg-primary rounded-pill">Quantity : {{($product->quantity)}}</span>
+                                <span class="badge bg-primary rounded-pill">Price :
+                                    {{($product->price * $product->quantity)}}</span>
+                                <button class="btn btn-sm  deletefromcart" data-id="{{$product->product_id}}">x</button>
                             </li>
 
-                        @empty
+                            @empty
 
-                        <h6>Cart Is Empty</h6>
-                        @endforelse
+                            <h6 class="text-center mt-3 mb-3">Your Cart Is Empty</h6>
 
-                    </ul>
-                    @if (session()->has('cart_quantity'))
-<div class="px-2 mt-3 d-flex justify-content-center">
-    <a href="/checkout" class="btn btn-primary">Checkout</a>
-</div>
-@endif
+                            @endforelse
+
+                        </ul
+                        >
+                        @if (session()->has('cart_quantity') && session('cart_quantity') != 0)
+                        <div class="px-2 mt-3 d-flex justify-content-center">
+                            <a href="/checkout" class="btn btn-primary">Checkout</a>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

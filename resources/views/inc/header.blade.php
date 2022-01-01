@@ -32,6 +32,7 @@
                     <a class="nav-link" href="/register">Register</a>
                 </li>
 
+
                 <li class="nav-item">
                     <a class="nav-link" href="/login" tabindex="-1" aria-disabled="true">Login</a>
                 </li>
@@ -50,11 +51,32 @@
                 </form>
                 </li>
                 @endauth
+                
+                <li class="nav-item">
+                    <a class="nav-link cart"  href="/cart"><i class="fas fa-shopping-cart"></i>                        
+        <span
+        id="cart" 
+        style="
+        @if(session()->has('cart_quantity') && session('cart_quantity') != 0)   
+        {{"display:block"}}
+        @else
+        {{"display:none"}}
+        @endif
+        ">
+            @if(session()->has('cart_quantity') && session('cart_quantity') != 0)
+            {{session()->get('cart_quantity')}}
+            @endif
+        </span>
+
+
+                    </a>
+                </li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-flex" method="get" action="/search">
+                <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
+            
         </div>
     </div>
 </nav>
@@ -64,8 +86,15 @@
     <!-- Categories -->
     <div class="side-bar shadow">
         <ul>
-            @foreach ($categories as $category)
-            <li><a href="/category/{{$category->id}}/{{$category->name}}">{{$category->name}}</a></li>
-            @endforeach
-        </ul>
+
+        @ifcustomer
+
+        <li><a href="/customer/{{auth()->id()}}/orders">Orders</a></li>
+
+        @endif            
+        @foreach ($categories as $category)
+        <li><a href="/category/{{$category->id}}/{{$category->name}}">{{$category->name}}</a></li>
+        @endforeach
+
+    </ul>
     </div>

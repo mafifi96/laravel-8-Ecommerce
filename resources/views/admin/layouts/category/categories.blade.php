@@ -13,7 +13,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Categories</h1>
 
-        <a href="/category/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+        <a href="/admin/category/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-plus fa-sm "></i> Create Category</a>
 
     </div>
@@ -42,7 +42,7 @@
                             @foreach ($categories as $category)
                             <tr>
                                 <th scope="row">{{ ($loop->index + 1 )}}</th>
-                                <td><a href="/category/{{$category->id}}" class="btn text-decoration-none">{{$category->name}}</a></td>
+                                <td><a href="/admin/category/{{$category->id}}" class="btn text-decoration-none">{{$category->name}}</a></td>
                                 <td>{{$category->created_at}}</td>
                                 <td>{{$category->updated_at}}</td>
                             </tr>
