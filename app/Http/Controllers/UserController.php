@@ -46,6 +46,13 @@ class UserController extends Controller
 
     }
 
+    public function customers()
+    {
+        $customers = User::whereNotIn('id' , [Auth::id()])->get();
+
+        return view("admin.layouts.customer.customers" , ['customers' => $customers]);
+    }
+
     public function checkout()
     {
 

@@ -10,7 +10,6 @@
     <!-- Page header -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Orders</h1>
-
     </div>
 
     <!-- Content Row -->
@@ -40,7 +39,7 @@
 
                                 <td scope="row"><a href="/admin/order/{{$order->id}}">{{$order->id}}</a></td>
                                 <td>{{$order->status}}</td>
-                                <td>{{number_format($order->total_price ,0 , ',')}}</td>
+                                <td>&dollar;{{number_format($order->total_price ,0 , ',')}}</td>
                                 <td>{{$order->user->name}}</td>
                                 <td>{{$order->created_at}}</td>
 

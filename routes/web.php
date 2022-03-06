@@ -14,7 +14,6 @@ Route::get('/category/{category}/{name}', [GuestController::class , 'category'])
 Route::get("/cart" , [CartController::class , 'index']);
 Route::post("/cart/add" , [CartController::class , 'add']);
 Route::post("/cart/quantity" , [CartController::class , 'cart_quantity']);
-
 Route::post("/cart/delete" , [CartController::class , 'destroy']);
 Route::get('/checkout', [UserController::class , 'checkout']);
 Route::post('/customer/info', [UserController::class , 'customer_info']);
@@ -43,6 +42,10 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::post('/admin/product/delete', [ProductController::class, 'destroy']);
 
     Route::get('/admin/orders' , [OrderController::class , 'orders']);
+
+    Route::get('/admin/customers' , [UserController::class , 'customers']);
+
+    
 
 });
 

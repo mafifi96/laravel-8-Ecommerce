@@ -10,7 +10,6 @@
     <!-- Page header -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Customers</h1>
-
     </div>
 
     <!-- Content Row -->
@@ -39,13 +38,12 @@
                             @foreach ($customers as $customer)
                             <tr>
 
-                                <td scope="row"><a href="/admin/order/{{$order->id}}">{{$order->id}}</a></td>
-                                <td>{{$order->status}}</td>
-                                <td>{{number_format($order->total_price ,0 , ',')}}</td>
-                                <td>{{$order->products()->sum('quantity')}}</td>
-                                <td>{{$order->user->name}}</td>
-                                <td>{{$order->created_at}}</td>
-
+                                <td scope="row">{{$customer->id}}</td>
+                                <td>{{$customer->name}}</td>
+                                <td>{{$customer->email}}</td>
+                                <td>{{$customer->address}}</td>
+                                <td>{{$customer->phone}}</td>
+                                <td>{{$customer->created_at}}</td>
                             </tr>
                             @endforeach
 
@@ -67,7 +65,7 @@
 <footer class="sticky-footer bg-white">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2021</span>
+            <span>Copyright &copy; Mohamed Afifi</span>
         </div>
     </div>
 </footer>

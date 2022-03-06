@@ -1,5 +1,4 @@
-
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="/">Store</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
@@ -40,33 +39,31 @@
                 @auth
                 <li class="nav-item">
 
-                <form method="POST" action="http://127.0.0.1:8000/logout">
-                    @csrf
-                    <a class="btn btn-primary dropdown-item" data-toggle="modal" data-target="#logoutModal"
-                        href="http://127.0.0.1:8000/logout" onclick="event.preventDefault();
+                    <form method="POST" action="http://127.0.0.1:8000/logout">
+                        @csrf
+                        <a class="btn btn-primary dropdown-item" data-toggle="modal" data-target="#logoutModal"
+                            href="http://127.0.0.1:8000/logout" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                        Logout
-                    </a>
-                </form>
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Logout
+                        </a>
+                    </form>
                 </li>
                 @endauth
-                
+
                 <li class="nav-item">
-                    <a class="nav-link cart"  href="/cart"><i class="fas fa-shopping-cart"></i>                        
-        <span
-        id="cart" 
-        style="
+                    <a class="nav-link cart" href="/cart"><i class="fas fa-shopping-cart"></i>
+                        <span id="cart" style="
         @if(session()->has('cart_quantity') && session('cart_quantity') != 0)   
         {{"display:block"}}
         @else
         {{"display:none"}}
         @endif
         ">
-            @if(session()->has('cart_quantity') && session('cart_quantity') != 0)
-            {{session()->get('cart_quantity')}}
-            @endif
-        </span>
+                            @if(session()->has('cart_quantity') && session('cart_quantity') != 0)
+                            {{session()->get('cart_quantity')}}
+                            @endif
+                        </span>
 
 
                     </a>
@@ -76,7 +73,7 @@
                 <input class="form-control me-2" type="search" name="q" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-            
+
         </div>
     </div>
 </nav>
@@ -84,17 +81,22 @@
 
 <main class="mt-5 mb-5 px-3" style="overflow:hidden;">
     <!-- Categories -->
-    <div class="side-bar shadow">
-        <ul>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-sm-12 col-lg-2 mt-1">
+                <div class="side-bar p-2 mb-3 shadow-sm">
 
-        @ifcustomer
+                    <ul>
+                        @ifcustomer
 
-        <li><a href="/customer/{{auth()->id()}}/orders">Orders</a></li>
+                        <li><a href="/customer/{{auth()->id()}}/orders" class="text-decoration-none">Orders</a></li>
 
-        @endif            
-        @foreach ($categories as $category)
-        <li><a href="/category/{{$category->id}}/{{$category->name}}">{{$category->name}}</a></li>
-        @endforeach
+                        @endif
+                        @foreach ($categories as $category)
+                        <li><a href="/category/{{$category->id}}/{{$category->name}}" class="text-decoration-none">{{$category->name}}</a></li>
+                        @endforeach
 
-    </ul>
-    </div>
+                    </ul>
+                </div>
+            </div>
+        

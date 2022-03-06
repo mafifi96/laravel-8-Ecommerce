@@ -5,6 +5,9 @@
 @section("content")
 
 
+
+<div class="col-md-10 col-lg-10 col-sm-12 ">
+    <div class="row">
 <div class="container">
 
     <!-- Outer Row -->
@@ -37,11 +40,11 @@
                                     <div class="form-group">
                                         <input type="email" class="form-control form-control-user"
                                             id="exampleInputEmail" name="email" aria-describedby="emailHelp"
-                                            placeholder="Enter Email Address..." required>
+                                            placeholder="Enter mafifi350@gmail.com" required>
                                     </div>
                                     <div class="form-group">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" name="password" required placeholder="Password">
+                                            id="exampleInputPassword" name="password" required placeholder="Password mafifi96">
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-checkbox small">
@@ -73,5 +76,6 @@
     </div>
 
 </div>
-
+</div></div>
+</main>
 @endsection

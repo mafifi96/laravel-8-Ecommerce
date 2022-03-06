@@ -27,10 +27,8 @@
 }
 
 .side-bar {
-    width: 15%;
-    float: left;
-    height: 100%;
-    background: #fafafa;
+    
+    
     padding: 10px;
     border-radius: 5px;
     border: .5px solid rgb(224, 224, 224);

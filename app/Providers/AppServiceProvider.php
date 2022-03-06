@@ -47,5 +47,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->share('categories', Category::all());
+
+        \Illuminate\Pagination\Paginator::useBootstrap();
     }
 }

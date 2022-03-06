@@ -12,11 +12,11 @@ class OrderController extends Controller
 
     public function orders()
     {
-        $orders = Order::all();
+        $orders = Order::latest()->get();
         
         $orders->load("user.orders");
 
-        return view('admin.layouts.orders', ['orders' => $orders]);
+        return view('admin.layouts.order.orders', ['orders' => $orders]);
     }
 
     public function confirm(Request $request)

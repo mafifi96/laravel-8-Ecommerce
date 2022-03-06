@@ -55,6 +55,8 @@ class RegisteredUserController extends Controller
        // event(new Registered($user));
 
         Auth::login($user);
+        
+        $u_id = auth()->id();
 
         if(Cart::where('session_id',$session_id)->count('product_id') != 0)
         {
@@ -63,7 +65,7 @@ class RegisteredUserController extends Controller
             return redirect("/customer");
         }
 
-        return redirect(RouteServiceProvider::redirectAuth());
+        return RouteServiceProvider::redirectAuth();
     }
 
 }
