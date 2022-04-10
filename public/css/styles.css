@@ -1,0 +1,58 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.dialog {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(240, 233, 233, 0.5);
+    display: none;
+    z-index: 999;
+    padding: 40px;
+}
+
+.dialog .card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+.side-bar {
+    
+    
+    padding: 10px;
+    border-radius: 5px;
+    border: .5px solid rgb(224, 224, 224);
+}
+
+.side-bar ul {
+    list-style: none;
+    padding: 5px;
+}
+
+.cart {
+    position: relative;
+    
+}
+
+.cart span {
+    position: absolute;
+    top: 0px;
+    right: 4px;
+    padding: 2px;
+    background-color: rgb(49 219 57);
+    text-align: center;
+    color: #fff;
+    border-radius: 50%;
+    line-height: 1;
+    
+}
