@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Order;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -42,7 +43,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function orders(){
+    public function setPasswordAttribute($pass)
+    {
+        $this->attributes['password'] = Hash::make($pass);
+    }
+
+    public function orders()
+    {
 
         return $this->hasMany(Order::class);
     }
@@ -54,8 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function assignRole($role)
     {
-        if(is_string($role))
-        {
+        if (is_string($role)) {
             $role = Role::whereName($role)->firstOrFail();
         }
         $this->roles()->save($role);
@@ -71,5 +77,4 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Cart::class);
     }
-
 }

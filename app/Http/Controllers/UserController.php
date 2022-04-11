@@ -6,7 +6,7 @@ use App\Models\Cart;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\Request;
+use App\Http\Requests\CustomerRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -22,13 +22,17 @@ class UserController extends Controller
     public function admin()
     {
         $total_orders = Order::count();
+
         $total_cutomers = User::count();
+
         $total_sales = Order::sum("total_price");
 
         if ($total_sales < 1000000) {
+
             $total_sales = number_format($total_sales, 0, '.', ',') . "K";
 
         } elseif ($total_sales >= 1000000) {
+
             $total_sales = number_format($total_sales, 0, '.', ',') . "M";
         }
 
@@ -61,37 +65,23 @@ class UserController extends Controller
 
     }
 
-    public function customer_info(Request $request)
+    public function customer_info(CustomerRequest $request)
     {
 
         $session_id = session()->getId();
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required',
-            'avatar' => 'mimes:png,jpg,jpeg|max:2024',
-            'phone' => 'required',
-            'address' => 'required',
-            'payment_type' => 'required',
 
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'pm_type' => $request->payment_type,
-
-        ]);
+        $user = User::create($request->validated());
 
         $user->assignRole("customer");
 
         event(new Registered($user));
 
         Auth::login($user);
+
         $u_id = Auth::id();
 
         $cart = DB::update('update carts set user_id = ? where session_id = ?', [$u_id, $session_id]);

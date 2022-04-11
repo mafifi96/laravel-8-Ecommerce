@@ -35,11 +35,11 @@ Route::middleware(['auth','admin'])->group(function () {
     Route::post('/admin/category/store', [CategoryController::class, 'store']);
 
     Route::post('/admin/category/{category}/update', [CategoryController::class, 'update']);
-    
+
     Route::get('/admin/products',[ProductController::class ,'index'])->name('products');
-    
+
     Route::get('/admin/product/{product}',[ProductController::class ,'show'])->where('product','[0-9]+')->name('product');
-    
+
     Route::get('/admin/product/create',[ProductController::class , 'create'])->name('product_create');
 
     Route::get('/admin/product/{product}/edit',[ProductController::class , 'edit']);
@@ -54,7 +54,7 @@ Route::middleware(['auth','admin'])->group(function () {
 
     Route::get('/admin/customers' , [UserController::class , 'customers']);
 
-    
+
 
 });
 

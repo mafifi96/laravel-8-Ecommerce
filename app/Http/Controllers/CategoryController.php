@@ -15,6 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+
         return view("admin.layouts.category.categories" , ['categories' => $categories]);
     }
 
@@ -44,6 +45,7 @@ class CategoryController extends Controller
         ]);
 
         $request->session()->flash('saved', "Category <strong>".$request->name . " </strong>Created..!");
+
         Category::create($data);
 
         return back();
@@ -72,12 +74,12 @@ class CategoryController extends Controller
         $category->update($request->only('name','description'));
 
         $request->session()->flash('edited' , 'Category Updated Successfuly..');
-        
+
         return back();
-        
+
     }
 
-    
 
-    
+
+
 }

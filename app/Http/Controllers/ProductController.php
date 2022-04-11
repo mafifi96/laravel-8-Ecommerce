@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
+use App\Models\ProductBrand;
 
 class ProductController extends Controller
 {
@@ -44,18 +47,11 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        
-        $data = $request->validate([
-            'title' => "required|min:10|max:100",
-            'description' => "required|min:5|max:1000",
-            'price' => "required|numeric",
-            'quantity'=> "required|integer",
-            'category_id' => 'required|integer',
-            'brand_id'   => 'required|integer'
-        ]);
-        
+
+        $data = $request->validated();
+
         $request->validate([
             'image' => 'required|mimes:png,jpg,jpeg|max:2048'
         ]);
@@ -96,14 +92,13 @@ class ProductController extends Controller
     {
 
 
-        $categories = DB::select('select id,name from categories ');
+        $categories = Category::all(['id','name']);
 
-        $brands = DB::select('select id,name from product_brand');
-
+        $brands = ProductBrand::all(['id','name']);
 
         return view("admin.layouts.product.edit" , ['product' => $product,'categories'=>$categories , 'brands' => $brands]);
 
-        
+
 
     }
 
@@ -114,10 +109,24 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, Product $product)
     {
 
-        $product = Product::findOrFail($id)->update($request->all());
+
+        if($request->hasFile('image'))
+        {
+
+            $request->validate([
+                'image' => 'required|mimes:png,jpg,jpeg|max:2048'
+            ]);
+
+            $file_name = $request->file('image')->storePublicly('covers');
+
+            $image = $product->images()->create(['image'=>$file_name]);
+
+        }
+
+        $product->update($request->validated());
 
         $request->session()->flash('edited' , 'Product Updated..!');
 
@@ -133,7 +142,7 @@ class ProductController extends Controller
     public function destroy(Request $request)
     {
 
-        $product = Product::find($request->id);
+        $product = Product::findOrFail($request->id);
         $product->delete();
         return "deleted";
     }

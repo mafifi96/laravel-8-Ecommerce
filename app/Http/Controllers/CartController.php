@@ -11,14 +11,14 @@ class CartController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            
+
             $items = Cart::where("user_id", Auth::id())->get();
 
         } else {
 
             $items = Cart::where("session_id", session()->getId())->get();
         }
-        
+
         return view("guest.cart", ['cart_items' => $items]);
     }
 
@@ -32,7 +32,7 @@ class CartController extends Controller
         $price = $request->price;
         $price = ($quantity * $price);
 
-        
+
         if (Auth::check()) {
             $count = Cart::where('user_id', $user_id)
                 ->where('product_id', $productId)->count('quantity');
@@ -46,6 +46,7 @@ class CartController extends Controller
         if ($count >= 1) {
 
             $data['quantity'] = $quantity;
+
             $data['price'] = $quantity * $price;
 
             if (Auth::check()) {
@@ -71,8 +72,9 @@ class CartController extends Controller
             ];
 
             $cart = new Cart($data);
+
             $cart->save();
-            
+
         }
 
     }
@@ -80,6 +82,7 @@ class CartController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->product_id;
+
         if (Auth::check()) {
 
             $item = Cart::where("user_id", Auth::id())->where("product_id" , $id)->delete();
@@ -99,13 +102,15 @@ class CartController extends Controller
     {
 
         if (Auth::check()) {
-            
+
             $cart_quantity = Cart::where("user_id", Auth::id())->sum('quantity');
+
             $request->session()->put('cart_quantity',$cart_quantity);
 
         } else {
 
             $cart_quantity = Cart::where("session_id", session()->getId())->sum('quantity');
+
             $request->session()->put('cart_quantity',$cart_quantity);
         }
 

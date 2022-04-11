@@ -58,10 +58,10 @@
                         </div>
 
                         <div class="form-group">
-                            <select name="payment_type" class="form-control form-control-user">
+                            <select name="pm_type" class="form-control form-control-user">
                                 <option value="" selected>--Payment Method--</option>
-                                <option value="cash">Cash</option>
-                                <option value="credit_card">Credit Card</option>
+                                <option value="cash" @if(old('pm_type') == "cash") {{'selected'}} @endif>Cash</option>
+                                <option value="credit_card" @if(old('pm_type') == "credit_card") {{'selected'}} @endif>Credit Card</option>
                             </select>
                         </div>
 
